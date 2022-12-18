@@ -1,4 +1,4 @@
-import { Box, Card, Paper, Typography } from "@mui/material";
+import { Box, Card, Dialog, DialogContent, DialogTitle, Paper, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import Answer from "../components/Answer";
 import Question from "../components/Question";
@@ -35,6 +35,7 @@ export default function Quiz() {
   const [score, setScore] = useState(0);
   const [attempts, setAttempts] = useState(3);
   const [currentQuestions, setCurrentQuestions] = useState(currentQuestion);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
     fetchQuestionAnswer();
@@ -51,6 +52,8 @@ export default function Quiz() {
               currentQuestions.push(qa.question);
             }
           });
+        } else {
+            setOpen(true);
         }
       });
   };
@@ -63,13 +66,16 @@ export default function Quiz() {
         setScore((prevState) => prevState + 1);
         const currentState = [...currentQuestion];
         currentState.pop();
-        setCurrentQuestions(currentState);
+        if(currentState.length <= 0){
+            fetchQuestionAnswer();
+        } else {
+            setCurrentQuestions(currentState);
+        }
       } else {
         if (attempts - 1 === 0) {
-          console.log("Game end");
-        } else {
-          setAttempts((prevState) => prevState - 1);
-        }
+          setOpen(true);
+        } 
+        setAttempts((prevState) => prevState - 1);
       }
     }
   };
@@ -98,6 +104,13 @@ export default function Quiz() {
     </Card>
     )}
     </Box>
+    <Dialog open={open} maxWidth="md" fullWidth>
+        <DialogTitle>Quiz Completed</DialogTitle>
+        <DialogContent sx={{textAlign: 'center'}}>
+            <Typography variant="h5" sx={{color: 'green'}}>Current Score: {score || 0}</Typography>
+            <Typography variant="caption">Please refresh the page to restart the quiz</Typography>
+        </DialogContent>
+    </Dialog>
     </>
   );
 }
