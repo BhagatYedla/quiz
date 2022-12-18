@@ -13,7 +13,7 @@ export default function Answer({ question, handleSubmit }) {
       <Button size="small" variant="contained" onClick={() => {
         handleSubmit(question, ans)
         setAns('');
-        }}>
+      }}>
         Submit
       </Button>
     </CardActions>

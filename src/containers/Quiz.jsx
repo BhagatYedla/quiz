@@ -59,9 +59,12 @@ export default function Quiz() {
   return (
     <>
     <Box>
-      <Paper sx={{position: 'absolute',
-    top: '10%',
-    right: '2%', p: 1}} elevation={3}>
+        <Paper sx={{
+            position: 'absolute',
+            top: '10%',
+            right: '2%', 
+            p: 1
+        }} elevation={3}>
             <Typography sx={{color: 'green'}}>Current Score: {score || 0}</Typography>
             <Typography sx={{color: 'red'}}>Chances Left: {attempts}</Typography>
         </Paper>
